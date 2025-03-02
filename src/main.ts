@@ -25,13 +25,14 @@ debugCube.position.set(0, 0, 0);
 
 // Load GLTF Model
 const loader = new GLTFLoader();
-loader.load('Scenes/TestScene.gltf', (gltf: GLTF) => {
-    const model = gltf.scene;
-    model.position.set(0, 0, 0);
-    scene.add(model);
+loader.load('./Scenes/TestScene.gltf', (gltf: GLTF) => { // Use relative path
+  const model = gltf.scene;
+  model.position.set(0, 0, 0);
+  scene.add(model);
 }, undefined, (error: any) => {
-    console.error('Error loading GLTF model:', error);
+  console.error('Error loading GLTF model:', error);
 });
+
 
 // Add Orbit Controls
 const controls = new OrbitControls(camera, renderer.domElement);
