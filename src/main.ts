@@ -16,13 +16,6 @@ const pointLight = new THREE.PointLight(0xffffff, 1);
 pointLight.position.set(5, 5, 5);
 scene.add(pointLight);
 
-// Debugging: Add a simple cube
-const debugGeometry = new THREE.BoxGeometry(1, 1, 1);
-const debugMaterial = new THREE.MeshStandardMaterial({ color: 0xff0000 });
-const debugCube = new THREE.Mesh(debugGeometry, debugMaterial);
-scene.add(debugCube);
-debugCube.position.set(0, 0, 0);
-
 // Load GLTF Model
 const loader = new GLTFLoader();
 loader.load('./Scenes/TestScene.gltf', (gltf: GLTF) => { // Use relative path
@@ -49,7 +42,6 @@ window.addEventListener('resize', () => {
 // Animation Loop
 function animate() {
   requestAnimationFrame(animate);
-  debugCube.rotation.y += 0.01; // Rotate cube to ensure visibility
   renderer.render(scene, camera);
 }
 animate();
