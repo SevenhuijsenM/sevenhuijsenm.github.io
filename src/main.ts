@@ -1,6 +1,7 @@
 import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { GLTFLoader, GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { GLTFLoader, GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
+
 
 console.log("hi")
 // Initialize Scene, Camera, and Renderer
@@ -19,7 +20,7 @@ scene.add(pointLight);
 
 // Load GLTF Model
 const loader = new GLTFLoader();
-loader.load('./Scenes/TestScene.gltf', (gltf: GLTF) => { // Use relative path
+loader.load('./public/Scenes/TestScene.gltf', (gltf: GLTF) => { // Use relative path
   const model = gltf.scene;
   model.position.set(0, 0, 0);
   scene.add(model);
