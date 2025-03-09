@@ -34,7 +34,7 @@ scene.add(spotLight);
 
 // Load GLTF Model
 const loader = new GLTFLoader();
-loader.load('./public/Scenes/WebsiteScene.glb', (gltf: GLTF) => { // Use relative path
+loader.load('./Scenes/WebsiteScene.glb', (gltf: GLTF) => { // Use relative path
   const model = gltf.scene;
   model.position.set(0, 0, 0);
   scene.add(model);
