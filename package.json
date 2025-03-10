@@ -1,0 +1,21 @@
+{
+  "name": "merlijnsevenhuijsen",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "preview": "vite preview",
+    "build": "tsc && vite build",
+    "deploy": "gh-pages -d dist"
+  },
+  "devDependencies": {
+    "typescript": "~5.7.2",
+    "vite": "^6.2.0"
+  },
+  "dependencies": {
+    "@types/three": "^0.174.0",
+    "gsap": "^3.12.7",
+    "three": "^0.174.0"
+  }
+}
