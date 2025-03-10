@@ -4,7 +4,7 @@ import gsap from 'gsap';
 const SCROLL_SPEED = 0.0001;
 const MIN_SCROLL = 0;
 const MAX_SCROLL = 1;
-const CAMERA_SMOOTHING = 0.01;
+const CAMERA_SMOOTHING = 0.1;
 
 const PATH_POINTS = [
     {position: new THREE.Vector3(140, 10, 80), progress: 0},
@@ -29,29 +29,21 @@ const LOOK_AT_POINTS = [
 const PATH = new THREE.CatmullRomCurve3(PATH_POINTS.map(p => p.position));
 const LOOK_AT_PATH = new THREE.CatmullRomCurve3(LOOK_AT_POINTS.map(p => p.position));
 
-export class CameraScroller {
-    private readonly camera: THREE.Camera;
-    private scrollProgress: number;
-    private readonly targetLookAt: THREE.Vector3;
+export function setupCameraScroller(camera: THREE.Camera) {
+    let scrollProgress = 0;
+    const targetLookAt = LOOK_AT_PATH.getPoint(scrollProgress);
 
-    constructor(camera: THREE.Camera) {
-        this.camera = camera;
-        this.scrollProgress = 0;
-        this.targetLookAt = LOOK_AT_PATH.getPoint(this.scrollProgress);
+    camera.position.copy(PATH.getPoint(scrollProgress));
+    camera.lookAt(targetLookAt);
 
-        this.camera.position.copy(PATH.getPoint(this.scrollProgress));
-        this.camera.lookAt(this.targetLookAt);
-
-        window.addEventListener("wheel", (event) => this.handleScroll(event));
-    }
-
-    private handleScroll(event: WheelEvent) {
-        this.scrollProgress += event.deltaY * SCROLL_SPEED;
-        this.scrollProgress = Math.max(MIN_SCROLL, Math.min(this.scrollProgress, MAX_SCROLL));
+    function handleScroll(event: WheelEvent) {
+        scrollProgress += event.deltaY * SCROLL_SPEED;
+        scrollProgress = Math.max(MIN_SCROLL, Math.min(scrollProgress, MAX_SCROLL));
     
-        const position = PATH.getPoint(this.scrollProgress);
-        const lookAtPosition = LOOK_AT_PATH.getPoint(this.scrollProgress);
-        gsap.to(this.camera.position, { 
+        const position = PATH.getPoint(scrollProgress);
+        const lookAtPosition = LOOK_AT_PATH.getPoint(scrollProgress);
+        
+        gsap.to(camera.position, { 
             x: position.x, 
             y: position.y, 
             z: position.z, 
@@ -59,13 +51,15 @@ export class CameraScroller {
             ease: "power2.out" 
         });
         
-        this.targetLookAt.lerp(lookAtPosition, 0.1);
+        targetLookAt.lerp(lookAtPosition, CAMERA_SMOOTHING);
         gsap.to({}, { 
             duration: 0.5, 
             ease: "power2.out", 
             onUpdate: () => {
-                this.camera.lookAt(this.targetLookAt);
+                camera.lookAt(targetLookAt);
             }
         });
     }
+
+    window.addEventListener("wheel", handleScroll);
 }

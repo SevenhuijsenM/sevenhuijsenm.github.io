@@ -1,10 +1,7 @@
 import * as THREE from 'three';
 import { GLTFLoader, GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { CameraScroller } from './CameraScroller';
-import {SkyBox} from "./SkyBox";
-
-let cameraScroller: CameraScroller;
-let skybox: SkyBox;
+import { setupCameraScroller } from './CameraScroller';
+import {setupSkyBox} from "./SkyBox";
 
 // Initialize Scene, Camera, and Renderer
 const scene = new THREE.Scene();
@@ -12,8 +9,8 @@ const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerH
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
-cameraScroller = new CameraScroller(camera);
-skybox = new SkyBox(scene);
+setupCameraScroller(camera);
+setupSkyBox(scene);
 
 // Lighting
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.7); // Increased intensity
